@@ -12,54 +12,68 @@ function App() {
   console.log(contactList);
  
 
-const deleteContact = (id) => {
-   setContactList(contactList.filter((contactid) => contactid.id !==id));
-
-}
-
-// const toggleReminder = (toggleid) => {
-// setContactList(
-//   contactList.map((contact) => 
-//   contact.toggleid === toggleid ? {...contact, reminder : !contact.reminder} : contact
-//   )
-// )
-// }
+  const remainingContacts = contacts.slice(5);
 
 
 
-const [addContact, setaddContacts] = useState (contacts.slice(5));
-
-const addContacttoList = () => {
-  setaddContacts(
-    addContact[parseInt(Math.random() * addContact.length + 1)]
-  )
-
+function randomContact() {
+  if (remainingContacts.length > 0) {
+    const randomIndex = Math.floor(Math.random() * remainingContacts.length);
+    const randomContact = remainingContacts.splice(randomIndex, 1)[0];
+    setContactList((previouscontactList) => [
+      ...previouscontactList, randomContact,
+    ]); 
+  }
 }
 
 
 
-const deleteNewContact = (id) => {
-  setaddContacts(contactList.filter((newcontactid) => newcontactid.id !==id));
-
+function sortByName() {
+  const sortedContacts = [...contactList].sort((a, b)=>
+  a.name.localeCompare(b.name));
+  setContactList(sortedContacts); 
 }
+
+
+function sortByPopularity() {
+  const sortedContacts = [...contactList].sort(
+    (a, b) => b.popularity - a.popularity
+  ); 
+  setContactList(sortedContacts)
+}
+
+
+function deleteEachContact(contactId) {
+const updateContacts = contactList.filter((contact)=> contact.id !== contactId);
+setContactList(updateContacts);
+}
+
+
+
 
 
 
   return (
     <div className="App">
 
-      <button onClick={addContacttoList}>Add Random Contact</button>
-   
-      <h1>IronContact</h1>
+        <h1>IronContact</h1>
+        <div className="btn-flex">
+      <button style={{color: 'green'}} onClick={randomContact}>Add Random Contact</button>
 
+      <button style={{color: 'green'}} onClick={sortByName}>Sort by Name</button>
+
+      <button style={{color: 'green'}} onClick={sortByPopularity}>Sort by Popularity</button>
+   </div>
+  
       <table>
         <thead>
           <tr>
-            <th>Picture</th>
-            <th>Name</th>
-            <th>Popularity</th>
-            <th>wonOscar</th>
-            <th>wonEmmy</th>
+            <th id="tr-style">Picture</th>
+            <th id="tr-style">Name</th>
+            <th id="tr-style">Popularity</th>
+            <th id="tr-style">won<br></br>Oscar</th>
+            <th id="tr-style">won<br></br>Emmy</th>
+            <th id="tr-style">Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -67,36 +81,19 @@ const deleteNewContact = (id) => {
             return (
               <tr key={contact._id}>
                 <td>
-                  <img alt="" src={contact.pictureUrl} height = {100} />
+                  <img alt="" src={contact.pictureUrl} height = {115} />
                 </td>
                 <td>{contact.name}</td>
                 <td>{contact.popularity}</td>
-                <td>{contact.wonOscar? <img alt="" src="https://github.githubassets.com/images/icons/emoji/unicode/1f3c6.png" /> :""} </td>
+                <td>{contact.wonOscar? <img alt="" src="https://github.githubassets.com/images/icons/emoji/unicode/1f3c6.png" height = {40}/> :"" } </td>
                 <td>{contact.wonEmmy}</td>
-              
+                <td className="deletebtn-style">
                 <FaTimes style={{color: 'red', cursor: 'pointer'} } 
-               onClick= {() => deleteContact(contact.id)}/>
+               onClick= {() => deleteEachContact(contact.id)}/>
+               </td>
               </tr>
             );
           })}
-        </tbody>
-
-        <tbody>
-    
-              <tr key={addContact.id}>
-                <td>
-                  <img alt="" key={uuidv4} src={addContact.pictureUrl} height = {100} />
-                </td>
-                <td>{addContact.name}</td>
-                <td>{addContact.popularity}</td>
-                <td>{addContact.wonOscar? <img alt="" src="https://github.githubassets.com/images/icons/emoji/unicode/1f3c6.png" /> :""} </td>
-                <td>{addContact.wonEmmy}</td>
-
-                <FaTimes style={{color: 'red', cursor: 'pointer'} } 
-               onClick= {() => deleteNewContact(addContact.id)}/>
-              </tr>
-    
-
         </tbody>
       </table>
     </div>
