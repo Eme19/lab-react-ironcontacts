@@ -57,11 +57,11 @@ setContactList(updateContacts);
     <div className="App">
 
         <h1>IronContact</h1>
-      <button style={{color: 'green'}} onClick={randomContact}>Add Random Contact</button>
+      <button style={{color: 'white'}} onClick={randomContact}>Add Random Contact</button>
 
-      <button style={{color: 'green'}} onClick={sortByName}>Sort by Name</button>
+      <button style={{color: 'white'}} onClick={sortByName}>Sort by Name</button>
 
-      <button style={{color: 'green'}} onClick={sortByPopularity}>Sort by Popularity</button>
+      <button style={{color: 'white'}} onClick={sortByPopularity}>Sort by Popularity</button>
    
   
       <table  className="center">
